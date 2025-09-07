@@ -1,0 +1,48 @@
+Q1. Which of the following best describes 'Generative AI'?
+*A. AI that creates new content like text, images, or music by learning from existing data.
+B. An AI system designed to enhance the speed and accuracy of data retrieval in search engines.
+C. A form of artificial intelligence that focuses on translating languages in real-time.
+D. AI technology used primarily for managing and organizing large databases.
+----
+Q2. Which statement best describes an LLM (Large Language Model)?
+A. It generates text by analyzing and summarizing large volumes of web content.
+*B. It generates text by predicting the next word based on the context of previous words.
+C. It generates text by translating input text into multiple languages simultaneously.
+D. It generates text by using pre-defined templates and filling in the blanks.
+----
+Q3. Which task can Generative AI perform with a high degree of accuracy?
+A. Predicting stock market trends
+B. Making ethical decisions in complex scenarios
+C. Diagnosing rare diseases
+*D. Generating human-like text based on prompts
+----
+Q4. In the context of Generative AI, what is 'zero-shot learning'?
+A. Training a model without any data.
+*B. The ability of a model to perform a task without any task-specific training.
+C. A method of reducing the model’s training time to zero.
+D. A technique for generating synthetic training data.
+----
+Q5. Which is a potential challenge in prompt-based development for text generation?
+A. The language model can only generate binary outputs.
+B. The need for extensive labeled data to train the model.
+*C. Crafting a prompt that accurately captures the desired context and nuances.
+D. The requirement for complex feature engineering.
+----
+Q6. What does the term 'token' refer to in LLMs?
+*A. A unit of text, such as a word or subword, that the model processes.
+B. A unique identifier assigned to each user.
+C. A security measure to authenticate API requests.
+D. A reward for users who contribute training data.
+----
+Q7. Which of the following is NOT a requirement for AGI (artificial general intelligence)?
+A. The ability to learn and adapt to new tasks without human intervention.
+B. The capability to perform tasks across various domains with human-like proficiency.
+*C. The ability to predict future events with perfect accuracy.
+D. The capacity to understand and generate natural language.
+----
+Q8. How does RAG (Retrieval-Augmented Generation) enhance an LLM?
+A. By improving its grammar and syntax.
+*B. By providing it with real-time and relevant data.
+C. By increasing its computational speed.
+D. By enabling it to understand multiple languages.
+----

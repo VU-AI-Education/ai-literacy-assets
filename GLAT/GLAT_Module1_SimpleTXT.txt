@@ -1,0 +1,71 @@
+MC1. Which of the following best describes "Generative AI"?
+
+AI that creates new content like text, images, or music by learning from existing data
+An AI system designed to enhance the speed and accuracy of data retrieval in search engines
+A form of artificial intelligence that focuses on translating languages in real-time
+AI technology used primarily for managing and organizing large databases
+
+[[PageBreak]]
+
+MC2. Which statement best describes an LLM (Large Language Model)?
+
+It generates text by analyzing and summarizing large volumes of web content
+It generates text by predicting the next word based on the context of previous words
+It generates text by translating input text into multiple languages simultaneously
+It generates text by using pre-defined templates and filling in the blanks
+
+[[PageBreak]]
+
+MC3. Which task can Generative AI perform with a high degree of accuracy?
+
+Predicting stock market trends
+Making ethical decisions in complex scenarios
+Diagnosing rare diseases
+Generating human-like text based on prompts
+
+[[PageBreak]]
+
+MC4. In the context of Generative AI, what is "zero-shot learning"?
+
+Training a model without any data
+The ability of a model to perform a task without any task-specific training
+A method of reducing the model’s training time to zero
+A technique for generating synthetic training data
+
+[[PageBreak]]
+
+MC5. Which is a potential challenge in prompt-based development for text generation?
+
+The language model can only generate binary outputs
+The need for extensive labeled data to train the model
+Crafting a prompt that accurately captures the desired context and nuances
+The requirement for complex feature engineering
+
+[[PageBreak]]
+
+MC6. What does the term "token" refer to in LLMs?
+
+A unit of text, such as a word or subword, that the model processes
+A unique identifier assigned to each user
+A security measure to authenticate API requests
+A reward for users who contribute training data
+
+[[PageBreak]]
+
+MC7. Which of the following is NOT a requirement for AGI (artificial general intelligence)?
+
+The ability to learn and adapt to new tasks without human intervention
+The capability to perform tasks across various domains with human-like proficiency
+The ability to predict future events with perfect accuracy
+The capacity to understand and generate natural language
+
+[[PageBreak]]
+
+MC8. How does RAG (Retrieval-Augmented Generation) enhance an LLM?
+
+By improving its grammar and syntax
+By providing it with real-time and relevant data
+By increasing its computational speed
+By enabling it to understand multiple languages
+
+[[PageBreak]]
