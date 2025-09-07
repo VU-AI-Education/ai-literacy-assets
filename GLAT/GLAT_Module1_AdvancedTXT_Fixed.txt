@@ -1,0 +1,187 @@
+[[AdvancedFormat]]
+
+[[Block:Module 1 - Know & Understand]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q1]]
+
+Which of the following best describes "Generative AI"?
+
+[[AdvancedChoices]]
+
+[[Choice:1]]
+AI that creates new content like text, images, or music by learning from existing data
+
+[[Choice:0]]
+An AI system designed to enhance the speed and accuracy of data retrieval in search engines
+
+[[Choice:0]]
+A form of artificial intelligence that focuses on translating languages in real-time
+
+[[Choice:0]]
+AI technology used primarily for managing and organizing large databases
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q2]]
+
+Which statement best describes an LLM (Large Language Model)?
+
+[[AdvancedChoices]]
+
+[[Choice:0]]
+It generates text by analyzing and summarizing large volumes of web content
+
+[[Choice:1]]
+It generates text by predicting the next word based on the context of previous words
+
+[[Choice:0]]
+It generates text by translating input text into multiple languages simultaneously
+
+[[Choice:0]]
+It generates text by using pre-defined templates and filling in the blanks
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q3]]
+
+Which task can Generative AI perform with a high degree of accuracy?
+
+[[AdvancedChoices]]
+
+[[Choice:0]]
+Predicting stock market trends
+
+[[Choice:0]]
+Making ethical decisions in complex scenarios
+
+[[Choice:0]]
+Diagnosing rare diseases
+
+[[Choice:1]]
+Generating human-like text based on prompts
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q4]]
+
+In the context of Generative AI, what is "zero-shot learning"?
+
+[[AdvancedChoices]]
+
+[[Choice:0]]
+Training a model without any data
+
+[[Choice:1]]
+The ability of a model to perform a task without any task-specific training
+
+[[Choice:0]]
+A method of reducing the model’s training time to zero
+
+[[Choice:0]]
+A technique for generating synthetic training data
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q5]]
+
+Which is a potential challenge in prompt-based development for text generation?
+
+[[AdvancedChoices]]
+
+[[Choice:0]]
+The language model can only generate binary outputs
+
+[[Choice:0]]
+The need for extensive labeled data to train the model
+
+[[Choice:1]]
+Crafting a prompt that accurately captures the desired context and nuances
+
+[[Choice:0]]
+The requirement for complex feature engineering
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q6]]
+
+What does the term "token" refer to in LLMs?
+
+[[AdvancedChoices]]
+
+[[Choice:1]]
+A unit of text, such as a word or subword, that the model processes
+
+[[Choice:0]]
+A unique identifier assigned to each user
+
+[[Choice:0]]
+A security measure to authenticate API requests
+
+[[Choice:0]]
+A reward for users who contribute training data
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q7]]
+
+Which of the following is NOT a requirement for AGI (artificial general intelligence)?
+
+[[AdvancedChoices]]
+
+[[Choice:0]]
+The ability to learn and adapt to new tasks without human intervention
+
+[[Choice:0]]
+The capability to perform tasks across various domains with human-like proficiency
+
+[[Choice:1]]
+The ability to predict future events with perfect accuracy
+
+[[Choice:0]]
+The capacity to understand and generate natural language
+
+
+[[PageBreak]]
+
+[[Question:MC:SingleAnswer:Vertical]]
+
+[[ID:Q8]]
+
+How does RAG (Retrieval-Augmented Generation) enhance an LLM?
+
+[[AdvancedChoices]]
+
+[[Choice:0]]
+By improving its grammar and syntax
+
+[[Choice:1]]
+By providing it with real-time and relevant data
+
+[[Choice:0]]
+By increasing its computational speed
+
+[[Choice:0]]
+By enabling it to understand multiple languages
+
+
+[[PageBreak]]
