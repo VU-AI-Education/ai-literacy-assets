@@ -1,0 +1,241 @@
+:root {
+    --primary-color: #0ea5e9;
+    --background-color: #f8fafc;
+    --text-color: #1f2937;
+    --card-background: #ffffff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.topic-card {
+    background: var(--card-background);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.topic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topic-card h3 {
+    margin: 0 0 0.5rem;
+    color: var(--primary-color);
+}
+
+.concept-detail {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.concept-detail.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.concept-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+/* Diagram styles */
+.concept-diagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.concept-diagram.vertical {
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 400px;
+    margin: 1.5rem auto;
+}
+
+.concept-diagram.vertical .concept-box {
+    width: 100%;
+}
+
+.concept-diagram.vertical .concept-arrow {
+    padding: 0;
+}
+
+.concept-box {
+    background: #f0f9ff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #0ea5e9;
+    text-align: center;
+    min-width: 140px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.concept-box strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #0369a1;
+}
+
+.concept-box div {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #475569;
+}
+
+.concept-arrow {
+    color: #0ea5e9;
+    font-weight: 300;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+}
+
+.concept-spacer {
+    width: 2rem;
+}
+
+.concept-box-warning {
+    border-color: #dc2626;
+    background: #fef2f2;
+}
+
+.concept-box-warning strong {
+    color: #b91c1c;
+}
+
+.concept-box-success {
+    border-color: #059669;
+    background: #ecfdf5;
+}
+
+.concept-box-success strong {
+    color: #047857;
+}
+
+.concept-box-dark {
+    border-color: #1f2937;
+    background: #1f2937;
+    color: white;
+}
+
+.concept-box-dark strong {
+    color: #e5e7eb;
+}
+
+.concept-box-dark div {
+    color: #d1d5db;
+}
+
+.note {
+    font-style: italic;
+    font-size: 0.8rem !important;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.flow-step {
+    background: #f0f9ff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: 2px solid #0ea5e9;
+    text-align: center;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.comparison-item {
+    background: #f0f9ff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #0ea5e9;
+}
+
+.visual-component {
+    margin: 1.5rem 0;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Literacy Concepts Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>AI Literacy Concepts Explorer</h1>
+        <p>Explore key concepts about AI and enhance your understanding. Click on topics you're interested in learning more about.</p>
+    </header>
+
+    <main>
+        <div class="topic-grid" id="topicGrid">
+            <!-- Topics will be populated by JavaScript -->
+        </div>
+
+        <div class="concept-detail" id="conceptDetail">
+            <button class="close-btn" onclick="closeDetail()">×</button>
+            <div class="concept-content">
+                <h2 id="conceptTitle"></h2>
+                <div id="conceptVisual"></div>
+                <p id="conceptText"></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="explanations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

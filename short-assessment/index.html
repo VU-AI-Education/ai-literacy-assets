@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generative AI Literacy - Short Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <div class="icon-container">
+                    <div class="ai-icon">🤖</div>
+                </div>
+                <h1>Generative AI literacy assessment</h1>
+                <p>Test your understanding of generative AI concepts through 9 interactive questions.</p>
+                <p>You'll receive immediate feedback and visual explanations for each question.</p>
+                <button id="start-quiz" class="btn btn-primary">Start quiz</button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <span id="question-counter" class="question-counter">Question 1 of 9</span>
+                </div>
+            </div>
+
+            <div class="quiz-content">
+                <div class="question-container">
+                    <h2 id="question-text" class="question-text"></h2>
+                    <div id="options-container" class="options-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Screen -->
+        <div id="feedback-screen" class="screen">
+            <div class="feedback-content">
+                <div id="feedback-icon" class="feedback-icon"></div>
+                <h2 id="feedback-title" class="feedback-title"></h2>
+                <p id="feedback-message" class="feedback-message"></p>
+                
+                <div class="feedback-actions">
+                    <button id="show-explanation" class="btn btn-secondary">View explanation</button>
+                    <button id="next-question" class="btn btn-primary">Next question</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explanation Screen -->
+        <div id="explanation-screen" class="screen">
+            <div class="explanation-content">
+                <div class="explanation-header">
+                    <button id="back-to-feedback" class="btn btn-back">← Back</button>
+                    <h2 id="explanation-title" class="explanation-title"></h2>
+                </div>
+                
+                <div id="explanation-visual" class="explanation-visual"></div>
+                <div id="explanation-text" class="explanation-text"></div>
+                
+                <div class="explanation-actions">
+                    <button id="continue-from-explanation" class="btn btn-primary">Continue to next question</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-content">
+                <div class="results-icon">🎉</div>
+                <h2>Quiz complete!</h2>
+                <div id="final-score" class="final-score"></div>
+                <div class="results-details">
+                    <div id="score-breakdown" class="score-breakdown"></div>
+                    <div class="analytics-container">
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <div class="analytics-label">Correct answers</div>
+                                <div id="correct-answers" class="analytics-value"></div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Incorrect answers</div>
+                                <div id="incorrect-answers" class="analytics-value"></div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Explanations viewed</div>
+                                <div id="explanations-viewed" class="analytics-value"></div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Average time per question</div>
+                                <div id="avg-time" class="analytics-value"></div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Total time</div>
+                                <div id="total-time" class="analytics-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="restart-quiz" class="btn btn-primary">Take quiz again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="quiz-data.js"></script>
+    <script src="explanations.js"></script>
+    <script src="analytics.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

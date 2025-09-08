@@ -1,109 +1,94 @@
 const explanations = {
     1: {
-        title: "What is Generative AI?",
+        title: "What is generative AI?",
         visual: `
             <div class="concept-diagram">
                 <div class="concept-box">
-                    <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
-                    <strong>Training Data</strong>
-                    <div style="font-size: 12px; color: #666;">Text, Images, Audio</div>
+                    <strong>Training data</strong>
+                    <div>Text, images, audio</div>
                 </div>
                 <div class="concept-arrow">→</div>
                 <div class="concept-box">
-                    <div style="font-size: 24px; margin-bottom: 8px;">🧠</div>
-                    <strong>AI Model</strong>
-                    <div style="font-size: 12px; color: #666;">Learns Patterns</div>
+                    <strong>AI model</strong>
+                    <div>Learns patterns</div>
                 </div>
                 <div class="concept-arrow">→</div>
                 <div class="concept-box">
-                    <div style="font-size: 24px; margin-bottom: 8px;">✨</div>
-                    <strong>New Content</strong>
-                    <div style="font-size: 12px; color: #666;">Generated Output</div>
+                    <strong>New content</strong>
+                    <div>Generated output</div>
                 </div>
             </div>
         `,
-        text: "Generative AI is artificial intelligence that can create new, original content by learning patterns from existing data. Unlike traditional AI that simply classifies or predicts, generative AI produces novel outputs like text, images, music, or code that didn't exist before."
+        text: "Generative AI refers to artificial intelligence that creates new content by learning patterns from existing data. Unlike traditional AI, which classifies or predicts, generative AI produces novel outputs such as text, images, music, or code."
     },
     2: {
-        title: "How Large Language Models Work",
+        title: "How large language models work",
         visual: `
             <div class="flowchart">
-                <div class="flow-step">📝 Input: "The cat sat on the..."</div>
-                <div style="font-size: 20px;">⬇️</div>
-                <div class="flow-step">🔍 Analyzes context and patterns</div>
-                <div style="font-size: 20px;">⬇️</div>
-                <div class="flow-step">🎯 Predicts most likely next word</div>
-                <div style="font-size: 20px;">⬇️</div>
-                <div class="flow-step">💭 Output: "mat" (or "chair", "sofa")</div>
+                <div class="flow-step">Input: "The cat sat on the..."</div>
+                <div class="flow-step">Analyzes context and patterns</div>
+                <div class="flow-step">Predicts most likely next word</div>
+                <div class="flow-step">Output: "mat"</div>
             </div>
         `,
-        text: "Large Language Models generate text by predicting the next word based on the context of previous words. They analyze patterns in language from massive datasets to understand relationships between words and concepts, enabling them to produce coherent, contextually appropriate text."
+        text: "Large language models generate text by predicting the next word based on the context of previous words. They analyze patterns in language from large datasets to produce coherent and contextually appropriate text."
     },
     3: {
-        title: "Generative AI's Strengths and Limitations",
+        title: "Generative AI's strengths and limitations",
         visual: `
             <div class="comparison-grid">
-                <div class="comparison-item highlight">
-                    <div style="font-size: 24px; margin-bottom: 8px;">✅</div>
-                    <strong>High Accuracy</strong>
-                    <div style="font-size: 14px; margin-top: 8px;">Text generation, language translation, content creation</div>
+                <div class="comparison-item">
+                    <strong>Strengths</strong>
+                    <div>Text generation, language translation, content creation</div>
                 </div>
                 <div class="comparison-item">
-                    <div style="font-size: 24px; margin-bottom: 8px;">⚠️</div>
-                    <strong>Limited Accuracy</strong>
-                    <div style="font-size: 14px; margin-top: 8px;">Predictions, medical diagnosis, ethical decisions</div>
+                    <strong>Limitations</strong>
+                    <div>Predictions, medical diagnosis, ethical decisions</div>
                 </div>
             </div>
         `,
-        text: "Generative AI excels at creating human-like text, translations, and content based on prompts. However, it struggles with tasks requiring real-time data, complex reasoning, or specialized domain knowledge like medical diagnosis or stock market predictions."
+        text: "Generative AI excels at creating human-like text, translations, and content based on prompts. However, it struggles with tasks requiring real-time data, complex reasoning, or specialized domain knowledge."
     },
     4: {
-        title: "Zero-Shot Learning Explained",
+        title: "Zero-shot learning explained",
         visual: `
             <div class="concept-diagram">
                 <div class="concept-box">
-                    <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
-                    <strong>New Task</strong>
-                    <div style="font-size: 12px; color: #666;">Never seen before</div>
+                    <strong>New task</strong>
+                    <div>Never seen before</div>
                 </div>
                 <div class="concept-arrow">→</div>
                 <div class="concept-box">
-                    <div style="font-size: 24px; margin-bottom: 8px;">🧠</div>
-                    <strong>Pre-trained Model</strong>
-                    <div style="font-size: 12px; color: #666;">General knowledge</div>
+                    <strong>Pre-trained model</strong>
+                    <div>General knowledge</div>
                 </div>
                 <div class="concept-arrow">→</div>
                 <div class="concept-box">
-                    <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
-                    <strong>Immediate Performance</strong>
-                    <div style="font-size: 12px; color: #666;">No additional training</div>
+                    <strong>Immediate performance</strong>
+                    <div>No additional training</div>
                 </div>
             </div>
         `,
-        text: "Zero-shot learning is when an AI model can perform a task it has never been specifically trained for, using only its general knowledge and understanding. It's like asking someone to play a new board game - they can often figure it out using their general understanding of games and rules."
+        text: "Zero-shot learning occurs when an AI model performs a task it has never been specifically trained for, using only its general knowledge."
     },
     5: {
-        title: "The Art of Prompt Engineering",
+        title: "The art of prompt engineering",
         visual: `
             <div class="comparison-grid">
                 <div class="comparison-item">
-                    <div style="font-size: 20px; margin-bottom: 8px;">😕</div>
-                    <strong>Vague Prompt</strong>
-                    <div style="font-size: 14px; margin-top: 8px;">"Write something about dogs"</div>
-                    <div style="font-size: 12px; color: #666; margin-top: 4px;">→ Generic, unfocused output</div>
+                    <strong>Vague prompt</strong>
+                    <div>"Write something about dogs"</div>
                 </div>
-                <div class="comparison-item highlight">
-                    <div style="font-size: 20px; margin-bottom: 8px;">😊</div>
-                    <strong>Specific Prompt</strong>
-                    <div style="font-size: 14px; margin-top: 8px;">"Write a 200-word guide for first-time dog owners about house training"</div>
-                    <div style="font-size: 12px; color: #666; margin-top: 4px;">→ Targeted, useful output</div>
+                <div class="comparison-item">
+                    <strong>Specific prompt</strong>
+                    <div>"Write a 200-word guide for first-time dog owners about house training"</div>
                 </div>
             </div>
         `,
-        text: "Crafting effective prompts is challenging because you must clearly communicate context, tone, format, and specific requirements. The quality of AI output heavily depends on how well you can articulate what you want, including nuances and constraints."
+        text: "Effective prompts clearly communicate context, tone, format, and specific requirements. The quality of AI output depends on how well you articulate your needs."
     },
     6: {
-        title: "Understanding Tokens in LLMs",
+        title: "Understanding tokens in LLMs",
         visual: `
             <div class="visual-component">
                 <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #0ea5e9;">
@@ -122,7 +107,7 @@ const explanations = {
         text: "Tokens are the basic units that language models process - they can be words, parts of words, or even punctuation. Models break down text into these digestible pieces to understand and generate language. Token limits determine how much text a model can process at once."
     },
     7: {
-        title: "AGI vs Current AI Capabilities",
+        title: "AGI vs current AI capabilities",
         visual: `
             <div class="comparison-grid">
                 <div class="comparison-item">
@@ -143,7 +128,7 @@ const explanations = {
         text: "Artificial General Intelligence (AGI) would match human cognitive abilities across all domains, but it doesn't require supernatural powers like perfect future prediction. Even humans can't predict the future with perfect accuracy - AGI is about general intelligence, not omniscience."
     },
     8: {
-        title: "RAG: Enhancing LLMs with Fresh Data",
+        title: "RAG: Enhancing LLMs with fresh data",
         visual: `
             <div class="flowchart">
                 <div class="flow-step">❓ User Question</div>
@@ -158,7 +143,7 @@ const explanations = {
         text: "Retrieval-Augmented Generation (RAG) enhances LLMs by connecting them to external, up-to-date databases. When you ask a question, RAG first searches for relevant information, then feeds both your question and the retrieved data to the LLM for a more accurate, current response."
     },
     9: {
-        title: "Effective AI Prompting Strategies",
+        title: "Effective AI prompting strategies",
         visual: `
             <div class="comparison-grid">
                 <div class="comparison-item highlight">
@@ -184,7 +169,7 @@ const explanations = {
         text: "For marketing content, focus on providing context about your audience and desired outcomes rather than competitor information. AI works best when given clear direction about what you want to achieve, not what others are doing."
     },
     10: {
-        title: "Maintaining AI System Accuracy",
+        title: "Maintaining AI system accuracy",
         visual: `
             <div class="flowchart">
                 <div class="flow-step">🔍 Identify Outdated Information</div>
@@ -199,7 +184,7 @@ const explanations = {
         text: "AI systems become outdated as information changes. The most effective solution is proactive: regularly updating the training data with current information rather than reactive measures like feedback loops or human escalation."
     },
     11: {
-        title: "RAG vs Regular Prompting",
+        title: "RAG vs regular prompting",
         visual: `
             <div class="comparison-grid">
                 <div class="comparison-item">
@@ -217,7 +202,7 @@ const explanations = {
         text: "RAG excels when you need specific information from your own datasets. While regular prompting relies on the model's general knowledge, RAG can pull exact details from different parts of your email dataset to answer specific questions."
     },
     12: {
-        title: "Critical Thinking with AI Information",
+        title: "Critical thinking with AI information",
         visual: `
             <div class="flowchart">
                 <div class="flow-step">🤖 LLM Provides Information</div>
@@ -232,7 +217,7 @@ const explanations = {
         text: "LLM outputs should be treated like any other information source - useful but requiring verification. They're not inherently more or less trustworthy than internet sources; they're just another tool that requires critical evaluation and fact-checking."
     },
     13: {
-        title: "LLM Knowledge Limitations",
+        title: "LLM knowledge limitations",
         visual: `
             <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #dc2626;">
                 <div style="text-align: center; margin-bottom: 16px;">
@@ -249,7 +234,7 @@ const explanations = {
         text: "LLMs have a knowledge cutoff date - they can't access information beyond when they were last trained. This makes them unreliable for real-time information like current market trends, recent news, or live data."
     },
     14: {
-        title: "Verifying AI-Generated Summaries",
+        title: "Verifying AI-generated summaries",
         visual: `
             <div class="flowchart">
                 <div class="flow-step">📄 AI Summary</div>
@@ -264,7 +249,7 @@ const explanations = {
         text: "Always cross-check AI summaries with original sources. AI can misinterpret, oversimplify, or miss important context. The primary source contains the complete, accurate information needed for academic work."
     },
     15: {
-        title: "AI-Generated Media Detection",
+        title: "AI-generated media detection",
         visual: `
             <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #f59e0b;">
                 <div style="text-align: center; margin-bottom: 16px;">
@@ -282,7 +267,7 @@ const explanations = {
         text: "Modern AI can create highly convincing fake videos with accurate voices, professional quality, and smooth transitions. Visual and audio cues alone cannot confirm authenticity - specialized detection tools and verification methods are needed."
     },
     16: {
-        title: "AI Bias in Hiring Systems",
+        title: "AI bias in hiring systems",
         visual: `
             <div class="flowchart">
                 <div class="flow-step">📊 Historical Hiring Data</div>
@@ -297,7 +282,7 @@ const explanations = {
         text: "AI hiring systems can perpetuate historical biases present in training data. If past hiring decisions were biased against certain groups, the AI learns and replicates these patterns, leading to unfair screening of future applicants."
     },
     17: {
-        title: "The Black Box Problem in AI",
+        title: "The black box problem in AI",
         visual: `
             <div class="concept-diagram">
                 <div class="concept-box">
@@ -322,7 +307,7 @@ const explanations = {
         text: "A 'black box' AI system produces outputs without explaining its reasoning process. This lack of transparency makes it difficult for professionals to trust and validate the AI's decisions, especially in critical fields like healthcare."
     },
     18: {
-        title: "AI-Generated Content Copyright",
+        title: "AI-generated content copyright",
         visual: `
             <div class="flowchart">
                 <div class="flow-step">🎨 AI Generates Image</div>
@@ -337,7 +322,7 @@ const explanations = {
         text: "AI-generated content copyright varies by platform and tool. Each AI service has different licensing terms - some allow commercial use, others don't. Always check the specific tool's policy before using generated content commercially."
     },
     19: {
-        title: "AI Content Regulation",
+        title: "AI content regulation",
         visual: `
             <div class="comparison-grid">
                 <div class="comparison-item highlight">
@@ -355,7 +340,7 @@ const explanations = {
         text: "Restrictions on AI outputs are primarily justified by safety concerns - preventing the spread of harmful, misleading, or dangerous content. The challenge is balancing safety with innovation and freedom of expression."
     },
     20: {
-        title: "Privacy Risks with Cloud AI",
+        title: "Privacy risks with cloud AI",
         visual: `
             <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #dc2626;">
                 <div style="text-align: center; margin-bottom: 16px;">
