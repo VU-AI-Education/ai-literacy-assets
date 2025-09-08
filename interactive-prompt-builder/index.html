@@ -2,106 +2,242 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>COPE Interactive Prompt Builder</title>
+  <title>Learn effective prompting</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 2rem;
       background-color: #f9fafb;
+      margin: 0;
+      padding: 0;
       color: #333;
     }
-    h1, h2 {
-      color: #1f2937;
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 1.3rem;
+      font-weight: normal;
     }
     .container {
+      max-width: 1000px;
+      margin: 2rem auto;
       display: flex;
-      gap: 2rem;
+      gap: 1.5rem;
     }
-    .controls {
+    .prompt-box {
+      flex: 3;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      line-height: 1.5;
+    }
+    /* Chat layout */
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-height: 220px;
+    }
+    .message {
+      display: flex;
+      width: 100%;
+    }
+    .message.user { justify-content: flex-end; }
+    .message.ai { justify-content: flex-start; }
+    .bubble {
+      max-width: 80%;
+      padding: 0.6rem 0.75rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    .bubble.user {
+      /* Grey tone distinct from AI bubble */
+      background: #e5e7eb; /* gray-200 */
+      color: #111827;      /* gray-900 */
+      border-top-right-radius: 4px;
+    }
+    .bubble.ai {
+      background: #f3f4f6;
+      color: #374151;
+      border-top-left-radius: 4px;
+    }
+    .composer {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.75rem;
+    }
+    .composer input[type="text"] {
+      flex: 1;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .composer button {
+      width: auto;
+      text-align: center;
+      background: #111827;
+      color: #fff;
+    }
+    .ai-output { display: none; }
+    .sidebar {
       flex: 1;
       background: #fff;
-      padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .output {
-      flex: 2;
-      background: #f3f4f6;
       padding: 1rem;
-      border-radius: 8px;
-      font-family: monospace;
-      white-space: pre-wrap;
-      border: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-    label {
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: #111827;
+    }
+    button {
       display: block;
-      margin: 0.5rem 0;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: left;
+      font-weight: normal;
     }
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.9em;
-      color: #555;
+    button.context { background: #dbeafe; color: #1e40af; }
+    button.format { background: #dcfce7; color: #166534; }
+    button.purpose { background: #f3e8ff; color: #6b21a8; }
+    button.examples { background: #fef3c7; color: #92400e; }
+    .reset-container {
+      margin-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 1rem;
+    }
+    button.reset { background: #f3f4f6; color: #374151; font-weight: bold; }
+    /* Highlight colors */
+    button.reset { background: #f3f4f6; color: #374151; font-weight: normal; }
+    /* Highlight colors (match button hues, no bold) */
+    .context-hl {
+      color: #1e40af;
+      background: #dbeafe;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .format-hl {
+      color: #166534;
+      background: #dcfce7;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .purpose-hl {
+      color: #6b21a8;
+      background: #f3e8ff;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .examples-hl {
+      color: #92400e;
+      background: #fef3c7;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <h1>COPE Interactive Prompt Builder</h1>
-  <p>
-    Toggle the COPE elements below to see how they change the AI prompt. 
-    The base question is always included: <em>“What’s wrong with a patient who has abdominal pain?”</em>
-  </p>
-
+  <header>Learn effective prompting</header>
   <div class="container">
-    <div class="controls">
-      <h2>COPE Elements</h2>
-      <label><input type="checkbox" id="context"> Context</label>
-      <label><input type="checkbox" id="format"> Output Format</label>
-      <label><input type="checkbox" id="purpose"> Purpose</label>
-      <label><input type="checkbox" id="examples"> Examples</label>
+    <div class="prompt-box">
+      <div class="chat" id="chat">
+        <div class="message user">
+          <div class="bubble user" id="prompt">What’s wrong with a patient who has abdominal pain?</div>
+        </div>
+        <div class="message ai">
+          <div class="bubble ai" id="response">It could be appendicitis.</div>
+        </div>
+      </div>
+      <div class="composer">
+        <input id="composer-input" type="text" placeholder="Type your message and press Enter..." />
+        <button id="send-btn" onclick="send()">Send</button>
+      </div>
     </div>
-
-    <div class="output" id="promptOutput">
-      <!-- Combined prompt will appear here -->
+    <div class="sidebar">
+      <h3>Cope strategies</h3>
+      <button class="context" onclick="apply('context')">Add context</button>
+      <button class="format" onclick="apply('format')">Specify output format</button>
+      <button class="purpose" onclick="apply('purpose')">Define purpose</button>
+      <button class="examples" onclick="apply('examples')">Request examples</button>
+      <div class="reset-container">
+        <button class="reset" onclick="resetAll()">Reset</button>
+      </div>
     </div>
-  </div>
-
-  <div class="footer">
-    <p>Student task: Try different combinations of COPE elements. How does the output change?</p>
   </div>
 
   <script>
-    const base = "What’s wrong with a patient who has abdominal pain?\n\n";
+    const basePrompt = "What’s wrong with a patient who has abdominal pain?";
+    const baseResponse = "Abdominal pain can stem from mild indigestion to serious conditions like appendicitis or obstruction.";
 
-    const context = "You are an emergency medicine physician.\nA 25-year-old patient presents with abdominal pain for 8 hours and fever.\nVitals: HR 105, BP 110/70, Temp 38.2°C.\n\n";
-
-    const format = "Please provide a structured answer in three parts:\n1. Primary Diagnosis\n2. Differential Diagnoses\n3. Next Steps\n\n";
-
-    const purpose = "The goal is to help a student learn structured reasoning for abdominal pain.\nPlease explain your reasoning clearly.\n\n";
-
-    const examples = "Include 2 short comparative cases showing how the presentation might differ in other conditions.\n\n";
-
-    const checkboxes = {
-      context: document.getElementById("context"),
-      format: document.getElementById("format"),
-      purpose: document.getElementById("purpose"),
-      examples: document.getElementById("examples"),
+    const promptAdditions = {
+      context: '<br><br><span class="context-hl">You are an emergency medicine physician. A 25-year-old patient presents with abdominal pain for 8 hours and fever. Vitals: HR 105, BP 110/70, Temp 38.2°C.</span>',
+      format: '<br><br><span class="format-hl">Please provide a structured answer in three parts: 1. Primary Diagnosis 2. Differential Diagnoses 3. Next Steps.</span>',
+      purpose: '<br><br><span class="purpose-hl">The goal is to help a student learn structured reasoning for abdominal pain. Please explain your reasoning clearly.</span>',
+      examples: '<br><br><span class="examples-hl">Include 2 short comparative cases showing how the presentation might differ in other conditions.</span>'
     };
 
-    const output = document.getElementById("promptOutput");
+    const responseAdditions = {
+      context: '<br><br><span class="context-hl">A 25-year-old with fever, tachycardia, and 8 hours of abdominal pain is concerning for acute appendicitis with possible early sepsis and requires urgent surgical evaluation.</span>',
+      format: '<br><br><span class="format-hl">1. Primary diagnosis: Acute appendicitis<br>2. Differentials: Gastroenteritis, UTI, PID<br>3. Next steps: Physical exam, labs, ultrasound.</span>',
+      purpose: '<br><br><span class="purpose-hl">Explanation: Appendicitis is likely due to localized pain, fever, tachycardia. Differentials such as gastroenteritis (diarrhea expected), UTI (dysuria), PID (discharge) should also be considered.</span>',
+      examples: '<br><br><span class="examples-hl">Comparative case 1: Gastroenteritis – diffuse pain, vomiting, diarrhea.<br>Comparative case 2: UTI – suprapubic pain, dysuria, positive urine dipstick.</span>'
+    };
 
-    function updatePrompt() {
-      let prompt = base;
-      if (checkboxes.context.checked) prompt += context;
-      if (checkboxes.format.checked) prompt += format;
-      if (checkboxes.purpose.checked) prompt += purpose;
-      if (checkboxes.examples.checked) prompt += examples;
-      output.textContent = prompt;
+    let active = [];
+
+    function apply(type) {
+      if (!active.includes(type)) active.push(type);
+      render();
     }
 
-    Object.values(checkboxes).forEach(cb => cb.addEventListener("change", updatePrompt));
+    function resetAll() {
+      active = [];
+      render();
+    }
 
-    // Initialize with base prompt
-    updatePrompt();
+    function render() {
+      document.getElementById("prompt").innerHTML = basePrompt + active.map(a => promptAdditions[a]).join("");
+      document.getElementById("response").innerHTML = baseResponse + active.map(a => responseAdditions[a]).join("");
+    }
+
+    render();
+
+    function send() {
+      const input = document.getElementById('composer-input');
+      const text = input.value.trim();
+      if (!text) return;
+      // Update the base prompt with the user's message; keep applied additions intact
+      window.basePrompt = text;
+      input.value = '';
+      render();
+      // Optionally, scroll chat to bottom
+      const chat = document.getElementById('chat');
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Send on Enter
+    document.getElementById('composer-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        send();
+      }
+    });
   </script>
 </body>
 </html>
