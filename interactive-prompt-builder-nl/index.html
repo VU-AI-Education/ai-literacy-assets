@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Leer effectief prompten</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 1.3rem;
+      font-weight: normal;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .prompt-box {
+      flex: 3;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      line-height: 1.5;
+    }
+    /* Chat layout */
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-height: 220px;
+    }
+    .message {
+      display: flex;
+      width: 100%;
+    }
+    .message.user { justify-content: flex-end; }
+    .message.ai { justify-content: flex-start; }
+    .bubble {
+      max-width: 80%;
+      padding: 0.6rem 0.75rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    .bubble.user {
+      /* Grey tone distinct from AI bubble */
+      background: #e5e7eb; /* gray-200 */
+      color: #111827;      /* gray-900 */
+      border-top-right-radius: 4px;
+    }
+    .bubble.ai {
+      background: #f3f4f6;
+      color: #374151;
+      border-top-left-radius: 4px;
+    }
+    .composer {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.75rem;
+    }
+    .composer input[type="text"] {
+      flex: 1;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .composer button {
+      width: auto;
+      text-align: center;
+      background: #111827;
+      color: #fff;
+    }
+    .ai-output { display: none; }
+    .sidebar {
+      flex: 1;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: #111827;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: left;
+      font-weight: normal;
+    }
+    button.context { background: #dbeafe; color: #1e40af; }
+    button.format { background: #dcfce7; color: #166534; }
+    button.purpose { background: #f3e8ff; color: #6b21a8; }
+    button.examples { background: #fef3c7; color: #92400e; }
+    .reset-container {
+      margin-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 1rem;
+    }
+    button.reset { background: #f3f4f6; color: #374151; font-weight: bold; }
+    /* Highlight colors */
+    button.reset { background: #f3f4f6; color: #374151; font-weight: normal; }
+    /* Highlight colors (match button hues, no bold) */
+    .context-hl {
+      color: #1e40af;
+      background: #dbeafe;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .format-hl {
+      color: #166534;
+      background: #dcfce7;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .purpose-hl {
+      color: #6b21a8;
+      background: #f3e8ff;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .examples-hl {
+      color: #92400e;
+      background: #fef3c7;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactieve prompt builder in het Nederlands">
+  <meta name="robots" content="noindex">
+  
+</head>
+<body>
+  <header>Leer effectief prompten</header>
+  <div class="container">
+    <div class="prompt-box">
+      <div class="chat" id="chat">
+        <div class="message user">
+          <div class="bubble user" id="prompt">Wat is er aan de hand met een patiënt met buikpijn?</div>
+        </div>
+        <div class="message ai">
+          <div class="bubble ai" id="response">Het zou een appendicitis kunnen zijn.</div>
+        </div>
+      </div>
+      <div class="composer">
+        <input id="composer-input" type="text" placeholder="Typ je bericht en druk op Enter..." />
+        <button id="send-btn" onclick="send()">Verstuur</button>
+      </div>
+    </div>
+    <div class="sidebar">
+      <h3>Prompt-engineering strategieën</h3>
+      <button class="context" onclick="apply('context')">Voeg context toe</button>
+      <button class="format" onclick="apply('format')">Specificeer output format</button>
+      <button class="purpose" onclick="apply('purpose')">Definieer doel</button>
+      <button class="examples" onclick="apply('examples')">Vraag om voorbeelden</button>
+      <div class="reset-container">
+        <button class="reset" onclick="resetAll()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const basePrompt = "Wat is er aan de hand met een patiënt met buikpijn?";
+    const baseResponse = "Een patiënt met buikpijn kan last hebben van uiteenlopende oorzaken zoals spijsverteringsproblemen, ontstekingen, infecties of inwendige aandoeningen.";
+
+    const promptAdditions = {
+      context: '<br><br><span class="context-hl">Je bent SEH-arts. Een 25-jarige patiënt presenteert zich met sinds 8 uur bestaande buikpijn en koorts. Vitale parameters: hartfrequentie 105, bloeddruk 110/70, temperatuur 38,2°C.</span>',
+      format: '<br><br><span class="format-hl">Geef een gestructureerd antwoord in drie delen: 1. Werkdiagnose 2. Differentiële diagnoses 3. Vervolgstappen.</span>',
+      purpose: '<br><br><span class="purpose-hl">Het doel is een student te helpen gestructureerd te redeneren bij buikpijn. Leg je redenering duidelijk uit.</span>',
+      examples: '<br><br><span class="examples-hl">Voeg 2 korte vergelijkende casussen toe die laten zien hoe de presentatie bij andere aandoeningen kan verschillen.</span>'
+    };
+
+    const responseAdditions = {
+      context: '<br><br><span class="context-hl">Een 25-jarige met koorts, tachycardie en sinds 8 uur buikpijn past bij acute appendicitis met mogelijk vroege sepsis.</span>',
+      format: '<br><br><span class="format-hl">1. Werkdiagnose: Acute appendicitis<br>2. Differentiëlen: Gastro-enteritis, UWI, PID<br>3. Vervolgstappen: Lichamelijk onderzoek, laboratorium, echo.</span>',
+      purpose: '<br><br><span class="purpose-hl">Denk bij buikpijn altijd aan de grote groepen oorzaken – gastro-intestinaal, urologisch, gynaecologisch en vasculair – en redeneer van breed naar smal met anamnese, onderzoek en aanvullend onderzoek.</span>',
+      examples: '<br><br><span class="examples-hl">Vergelijkende casus 1: Gastro-enteritis – diffuse pijn, braken, diarree.<br>Vergelijkende casus 2: UWI – suprapubische pijn, dysurie, positieve urine-dipstick.</span>'
+    };
+
+    let active = [];
+
+    function apply(type) {
+      if (!active.includes(type)) active.push(type);
+      render();
+    }
+
+    function resetAll() {
+      active = [];
+      render();
+    }
+
+    function render() {
+      document.getElementById("prompt").innerHTML = basePrompt + active.map(a => promptAdditions[a]).join("");
+      document.getElementById("response").innerHTML = baseResponse + active.map(a => responseAdditions[a]).join("");
+    }
+
+    render();
+
+    function send() {
+      const input = document.getElementById('composer-input');
+      const text = input.value.trim();
+      if (!text) return;
+      // Update the base prompt with the user's message; keep applied additions intact
+      window.basePrompt = text;
+      input.value = '';
+      render();
+      // Optioneel: scroll de chat naar beneden
+      const chat = document.getElementById('chat');
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Verstuur met Enter
+    document.getElementById('composer-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        send();
+      }
+    });
+  </script>
+</body>
+</html>
