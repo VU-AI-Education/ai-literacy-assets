@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>COPE Interactive Prompt Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9fafb;
+      color: #333;
+    }
+    h1, h2 {
+      color: #1f2937;
+    }
+    .container {
+      display: flex;
+      gap: 2rem;
+    }
+    .controls {
+      flex: 1;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .output {
+      flex: 2;
+      background: #f3f4f6;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      border: 1px solid #ddd;
+    }
+    label {
+      display: block;
+      margin: 0.5rem 0;
+    }
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>COPE Interactive Prompt Builder</h1>
+  <p>
+    Toggle the COPE elements below to see how they change the AI prompt. 
+    The base question is always included: <em>“What’s wrong with a patient who has abdominal pain?”</em>
+  </p>
+
+  <div class="container">
+    <div class="controls">
+      <h2>COPE Elements</h2>
+      <label><input type="checkbox" id="context"> Context</label>
+      <label><input type="checkbox" id="format"> Output Format</label>
+      <label><input type="checkbox" id="purpose"> Purpose</label>
+      <label><input type="checkbox" id="examples"> Examples</label>
+    </div>
+
+    <div class="output" id="promptOutput">
+      <!-- Combined prompt will appear here -->
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Student task: Try different combinations of COPE elements. How does the output change?</p>
+  </div>
+
+  <script>
+    const base = "What’s wrong with a patient who has abdominal pain?\n\n";
+
+    const context = "You are an emergency medicine physician.\nA 25-year-old patient presents with abdominal pain for 8 hours and fever.\nVitals: HR 105, BP 110/70, Temp 38.2°C.\n\n";
+
+    const format = "Please provide a structured answer in three parts:\n1. Primary Diagnosis\n2. Differential Diagnoses\n3. Next Steps\n\n";
+
+    const purpose = "The goal is to help a student learn structured reasoning for abdominal pain.\nPlease explain your reasoning clearly.\n\n";
+
+    const examples = "Include 2 short comparative cases showing how the presentation might differ in other conditions.\n\n";
+
+    const checkboxes = {
+      context: document.getElementById("context"),
+      format: document.getElementById("format"),
+      purpose: document.getElementById("purpose"),
+      examples: document.getElementById("examples"),
+    };
+
+    const output = document.getElementById("promptOutput");
+
+    function updatePrompt() {
+      let prompt = base;
+      if (checkboxes.context.checked) prompt += context;
+      if (checkboxes.format.checked) prompt += format;
+      if (checkboxes.purpose.checked) prompt += purpose;
+      if (checkboxes.examples.checked) prompt += examples;
+      output.textContent = prompt;
+    }
+
+    Object.values(checkboxes).forEach(cb => cb.addEventListener("change", updatePrompt));
+
+    // Initialize with base prompt
+    updatePrompt();
+  </script>
+</body>
+</html>
