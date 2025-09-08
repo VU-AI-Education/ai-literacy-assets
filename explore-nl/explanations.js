@@ -195,7 +195,7 @@ const explanations = {
                 </div>
             </div>
         `,
-        text: "AI-output moet net als elke andere informatiebron worden behandeld - nuttig maar verificatie vereist. Ze zijn niet inherent meer of minder betrouwbaar dan internetbronnen; het is gewoon een ander hulpmiddel dat kritische evaluatie en feitencontrole nodig heeft."
+        text: "AI-output moet net als elke andere informatiebron worden behandeld - nuttig maar verificatie vereist. Ze zijn niet inherent meer of minder betrouwbaar dan internetbronnen. Het is gewoon een ander hulpmiddel dat kritische evaluatie en feitencontrole nodig heeft."
     },
     8: {
         title: "AI-gegenereerde samenvattingen verifiëren",
