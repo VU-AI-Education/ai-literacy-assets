@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Effective Prompting with Copilot</title>
+    <style>
+        :root {
+            --background-color: #ffffff;
+            --text-color: #292929;
+            --border-color: #ededed;
+            --input-background: #f5f5f5;
+            --copilot-blue: #0078D4;
+            --suggestion-background: #f9f9f9;
+            
+            /* COPE Strategy Colors */
+            --context-color: #0078D4;
+            --output-color: #28A745;
+            --purpose-color: #6F42C1;
+            --examples-color: #FD7E14;
+            
+            /* Lighter versions for backgrounds */
+            --context-light: #E3F2FD;
+            --output-light: #E6F4EA;
+            --purpose-light: #F3E5F5;
+            --examples-light: #FFF3E0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--background-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .copilot-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .prompt-tools {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+
+        .strategy-group {
+            margin-bottom: 24px;
+        }
+
+        .strategy-group h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .strategy-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .strategy-toggle.context { border-left: 4px solid var(--context-color); }
+        .strategy-toggle.output { border-left: 4px solid var(--output-color); }
+        .strategy-toggle.purpose { border-left: 4px solid var(--purpose-color); }
+        .strategy-toggle.examples { border-left: 4px solid var(--examples-color); }
+
+        .strategy-toggle.context.active { background-color: var(--context-light); }
+        .strategy-toggle.output.active { background-color: var(--output-light); }
+        .strategy-toggle.purpose.active { background-color: var(--purpose-light); }
+        .strategy-toggle.examples.active { background-color: var(--examples-light); }
+
+        .highlight-context { color: var(--context-color); font-weight: 500; }
+        .highlight-output { color: var(--output-color); font-weight: 500; }
+        .highlight-purpose { color: var(--purpose-color); font-weight: 500; }
+        .highlight-examples { color: var(--examples-color); font-weight: 500; }
+
+        .message {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .message.user {
+            background-color: var(--suggestion-background);
+        }
+
+        .message.assistant {
+            background-color: var(--background-color);
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .input-area {
+            position: sticky;
+            bottom: 0;
+            background-color: var(--background-color);
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--input-background);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .input-box {
+            flex: 1;
+            border: none;
+            background: none;
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px;
+            resize: none;
+            min-height: 24px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .input-box:focus {
+            outline: none;
+        }
+
+        .send-button {
+            background-color: var(--copilot-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .suggestion-chip {
+            background-color: var(--suggestion-background);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .suggestion-chip:hover {
+            background-color: var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="copilot-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h1>Learn Effective Prompting</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="chat-container">
+            <div class="message user">
+                <div class="message-content" id="promptDisplay">
+                    What could be the most likely diagnosis for a 22-year-old tourist brought to the ER with abdominal pain, vomiting, and diarrhea? Additional symptoms include small pupils, tearing eyes, and excessive sweating. Vitals: SpO2 95%, BP 120/80 mmHg, HR 88/min, glucose 5.8 mmol/L, temp 37°C.
+                </div>
+            </div>
+
+            <div class="message assistant">
+                <div class="message-content" id="responseDisplay">
+                    Based on the symptoms and clinical presentation, here's my initial assessment...
+                </div>
+            </div>
+        </div>
+
+        <aside class="prompt-tools">
+            <div class="strategy-group">
+                <h3>COPE Prompt Engineering Strategies</h3>
+                
+                <div class="strategy-toggle context" data-strategy="context">
+                    <span>Add Context</span>
+                    <!-- Emergency medicine context -->
+                </div>
+                
+                <div class="strategy-toggle output" data-strategy="output">
+                    <span>Specify Output Format</span>
+                    <!-- Structured medical assessment -->
+                </div>
+                
+                <div class="strategy-toggle purpose" data-strategy="purpose">
+                    <span>Define Purpose</span>
+                    <!-- Clinical diagnosis focus -->
+                </div>
+                
+                <div class="strategy-toggle examples" data-strategy="examples">
+                    <span>Request Examples</span>
+                    <!-- Similar cases/differential diagnosis -->
+                </div>
+            </div>
+
+            <div class="strategy-group">
+                <h3>Current Improvements</h3>
+                <div id="activeStrategies">
+                    <!-- Active strategies will be listed here -->
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <div class="input-area">
+        <div class="input-container">
+            <textarea class="input-box" placeholder="Message Copilot" rows="1"></textarea>
+            <button class="send-button">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 8L1 15L3 8L1 1L15 8Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
+        <div class="suggestion-chips">
+            <button class="suggestion-chip">Stel een kort behandelprotocol op.</button>
+            <button class="suggestion-chip">Welke antidotumdoseringen zijn veilig?</button>
+        </div>
+    </div>
+
+    <script>
+        const inputBox = document.querySelector('.input-box');
+        const suggestionChips = document.querySelectorAll('.suggestion-chip');
+        const sendButton = document.querySelector('.send-button');
+        const strategyToggles = document.querySelectorAll('.strategy-toggle');
+        const promptDisplay = document.getElementById('promptDisplay');
+        const responseDisplay = document.getElementById('responseDisplay');
+
+        // Store the base prompt and response
+        const basePrompt = promptDisplay.textContent;
+        const baseResponse = responseDisplay.textContent;
+
+        // COPE strategies content
+        const strategies = {
+            context: {
+                promptAdd: " As an emergency medicine physician,",
+                responseAdd: "In the emergency medicine context, considering the combination of gastrointestinal symptoms with cholinergic signs (small pupils, tearing, sweating), this presentation strongly suggests..."
+            },
+            output: {
+                promptAdd: " Please provide a structured differential diagnosis with primary diagnosis, supporting evidence, and recommended immediate actions.",
+                responseAdd: "\n\nStructured Assessment:\n1. Primary Diagnosis:\n2. Supporting Evidence:\n3. Immediate Actions Required:"
+            },
+            purpose: {
+                promptAdd: " The goal is to quickly identify any life-threatening conditions and establish an immediate treatment plan.",
+                responseAdd: "\n\nFocusing on immediate clinical priorities and potential life-threatening conditions..."
+            },
+            examples: {
+                promptAdd: " Include similar cases you've encountered and how their management differed based on severity.",
+                responseAdd: "\n\nComparative Cases:\n- Similar case 1: Severe presentation requiring immediate intervention\n- Similar case 2: Moderate presentation managed with observation"
+            }
+        };
+
+        let activeStrategies = new Set();
+
+        // Update the prompt and response based on active strategies
+        function updateContent() {
+            let newPrompt = basePrompt;
+            let newResponse = baseResponse;
+            
+            activeStrategies.forEach(strategy => {
+                if (strategies[strategy]) {
+                    const {promptAdd, responseAdd} = strategies[strategy];
+                    newPrompt = newPrompt.replace(/[.?]/, match => 
+                        `<span class="highlight-${strategy}">${promptAdd}</span>${match}`);
+                    newResponse += `<span class="highlight-${strategy}">${responseAdd}</span>`;
+                }
+            });
+
+            promptDisplay.innerHTML = newPrompt;
+            responseDisplay.innerHTML = newResponse;
+        }
+
+        // Handle strategy toggle clicks
+        strategyToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const strategy = toggle.dataset.strategy;
+                
+                if (toggle.classList.contains('active')) {
+                    toggle.classList.remove('active');
+                    activeStrategies.delete(strategy);
+                } else {
+                    toggle.classList.add('active');
+                    activeStrategies.add(strategy);
+                }
+                
+                updateContent();
+            });
+        });
+
+        // Auto-resize textarea as user types
+        inputBox.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Handle suggestion chip clicks
+        suggestionChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                inputBox.value = chip.textContent;
+                inputBox.focus();
+                inputBox.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // Handle send button click
+        sendButton.addEventListener('click', () => {
+            if (inputBox.value.trim()) {
+                const chatContainer = document.querySelector('.chat-container');
+                
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user';
+                userMessage.innerHTML = `
+                    <div class="message-content">${inputBox.value}</div>
+                `;
+                chatContainer.appendChild(userMessage);
+
+                // Clear input
+                inputBox.value = '';
+                inputBox.style.height = 'auto';
+
+                // Scroll to bottom
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+    </script>
+</body>
+</html>
