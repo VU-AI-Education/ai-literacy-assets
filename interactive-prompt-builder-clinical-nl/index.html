@@ -36,7 +36,7 @@
     .chat {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.9rem;
       min-height: 220px;
     }
     .message {
@@ -63,27 +63,7 @@
       color: #374151;
       border-top-left-radius: 4px;
     }
-    .composer {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-      border-top: 1px solid #e5e7eb;
-      padding-top: 0.75rem;
-    }
-    .composer input[type="text"] {
-      flex: 1;
-      padding: 0.6rem 0.7rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      font-size: 0.95rem;
-    }
-    .composer button {
-      width: auto;
-      text-align: center;
-      background: #111827;
-      color: #fff;
-    }
-    .ai-output { display: none; }
+    /* Remove unused composer styles */
     .sidebar {
       flex: 1;
       background: #fff;
@@ -108,11 +88,19 @@
       text-align: left;
       font-weight: normal;
     }
-    /* Button colors aligned with highlight styles */
+    /* Button colors aligned with new highlight styles */
+    button.basis { background: #e5e7eb; color: #111827; }
     button.context { background: #dbeafe; color: #1e40af; }
     button.rol { background: #f3e8ff; color: #6b21a8; }
     button.vraag { background: #fef3c7; color: #92400e; }
     button.output { background: #dcfce7; color: #166534; }
+
+    /* Active state for current step */
+    .sidebar button.active {
+      outline: 2px solid #111827;
+      outline-offset: 0;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.04) inset;
+    }
 
     .reset-container {
       margin-top: 1rem;
@@ -121,35 +109,12 @@
     }
     button.reset { background: #f3f4f6; color: #374151; font-weight: normal; }
 
-    /* Highlight colors (match button hues) */
-    .context-hl {
-      color: #1e40af;
-      background: #dbeafe;
-      font-weight: normal;
-      padding: 0 0;
-      border-radius: 4px;
-    }
-    .rol-hl {
-      color: #6b21a8;
-      background: #f3e8ff;
-      font-weight: normal;
-      padding: 0 0;
-      border-radius: 4px;
-    }
-    .vraag-hl {
-      color: #92400e;
-      background: #fef3c7;
-      font-weight: normal;
-      padding: 0 0;
-      border-radius: 4px;
-    }
-    .output-hl {
-      color: #166534;
-      background: #dcfce7;
-      font-weight: normal;
-      padding: 0 0;
-      border-radius: 4px;
-    }
+    /* Highlight colors (scoped to spans to avoid affecting buttons) */
+    span.basis { background: transparent; color: inherit; }
+    span.context { background: #dbeafe; color: #1e40af; border-radius: 4px; padding: 0; }
+    span.role { background: #f3e8ff; color: #6b21a8; border-radius: 4px; padding: 0; }
+    span.question { background: #fef3c7; color: #92400e; border-radius: 4px; padding: 0; }
+    span.output { background: #dcfce7; color: #166534; border-radius: 4px; padding: 0; }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Interactieve prompt builder voor klinisch redeneren (NL)">
@@ -167,17 +132,14 @@
           <div class="bubble ai" id="response">Laten we systematisch redeneren: start met waarschijnlijkheidsinschatting, benoem differentiaaldiagnoses en plan veilig vervolgstappen.</div>
         </div>
       </div>
-      <div class="composer">
-        <input id="composer-input" type="text" placeholder="Typ je bericht en druk op Enter..." />
-        <button id="send-btn" onclick="send()">Verstuur</button>
-      </div>
     </div>
     <div class="sidebar">
       <h3>Promptcomponenten</h3>
-      <button class="context" onclick="apply('context')">Context</button>
-      <button class="rol" onclick="apply('rol')">Rol</button>
-      <button class="vraag" onclick="apply('vraag')">Vraag</button>
-      <button class="output" onclick="apply('output')">Output format</button>
+      <!-- Basis is the default state; no button per request -->
+      <button class="context" onclick="selectStep(1)">Context</button>
+      <button class="rol" onclick="selectStep(2)">Rol</button>
+      <button class="vraag" onclick="selectStep(3)">Vraag</button>
+      <button class="output" onclick="selectStep(4)">Output</button>
       <div class="reset-container">
         <button class="reset" onclick="resetAll()">Reset</button>
       </div>
@@ -185,59 +147,71 @@
   </div>
 
   <script>
-    const basePrompt = "21-jarige toerist met buikpijn, braken en diarree. Wat is er aan de hand?";
-    const baseResponse = "Een 21-jarige toerist met buikpijn, braken en diarree kan meerdere dingen hebben. De meest voorkomende oorzaken hangen af van de context (waar is hij geweest, wat heeft hij gegeten, hoe ziek ziet hij eruit?).";
+    // Step content configuration
+    const steps = [
+      {
+        key: 'basis',
+        prompt: '21-jarige toerist met buikpijn, braken en diarree. Wat is er aan de hand?',
+        response: 'Waarschijnlijk een buikgriep of gastro-enteritis.'
+      },
+      {
+        key: 'context',
+        prompt: '<br><br><span class="context">Klachten: buikpijn, braken, diarree. Onderzoek: A vrij, AH 12/min, saturatie 95%, RR 120/80, pols 88, kleine pupillen, tranende ogen, glucose 5,8, transpireert, T 37,0.</span>',
+        response: '<br><br><span class="context">Dit kan passen bij een gastro-enteritis, maar de kleine pupillen en tranende ogen doen ook denken aan een intoxicatie, bijvoorbeeld door opioïden of een ander middel.</span>'
+      },
+      {
+        key: 'role',
+        prompt: '<br><br><span class="role">Je bent docent farmacie. Leg kort en duidelijk uit aan een student wat hier waarschijnlijk aan de hand is.</span>',
+        response: '<br><br><span class="role">Let op de combinatie van symptomen. Buikklachten kunnen wijzen op een infectie, maar de kleine pupillen, tranende ogen en transpiratie zijn typische tekenen van een cholinerge intoxicatie.</span>'
+      },
+      {
+        key: 'question',
+        prompt: '<br><br><span class="question">Wat is de meest waarschijnlijke therapeutische oorzaak van het klinisch beeld bij deze patiënt?</span>',
+        response: '<br><br><span class="question">De meest waarschijnlijke oorzaak is een intoxicatie door een cholinesteraseremmer, bijvoorbeeld medicatie zoals pilocarpine of insecticiden.</span>'
+      },
+      {
+        key: 'output',
+        prompt: '<br><br><span class="output">Geef je antwoord in een korte lijst met uitleg volgens de volgende stappen: 1. Informatie 2. Hypothese 3. Differentiële diagnose 4. Gekozen leidende diagnose 5. Diagnostische verantwoording</span>',
+        response: '<br><br><span class="output">1. Informatie: 21-jarige toerist, buikpijn, braken, diarree. Kleine pupillen, tranende ogen, transpireren, vitale functies redelijk stabiel.<br>2. Hypothese: mogelijk intoxicatie of infectieuze oorzaak.<br>3. Differentiële diagnose: gastro-enteritis, opioïdenintoxicatie, cholinerg syndroom.<br>4. Gekozen leidende diagnose: cholinerg syndroom door een cholinesteraseremmer.<br>5. Diagnostische verantwoording: de combinatie van miosis, tranenvloed en gastro-intestinale klachten past typisch bij een cholinerg syndroom en is minder goed te verklaren door een simpele gastro-enteritis.</span>'
+      }
+    ];
 
-    const promptAdditions = {
-      context: '<br><br><span class="context-hl">21-jarige toerist, door vrienden naar de HAP gebracht:<br>Niet lekker, buikpijn, braken, diarree.<br>A: vrij<br>B: AH 12 per minuut, saturatie 95%<br>C: RR 120/80, pols 88<br>D: kleine pupillen, tranende ogen, glucose 5,8<br>E: transpireert, T 37,0</span>',
-      rol: '<br><br><span class="rol-hl">Je bent een docent in farmacie. Geef een korte en duidelijke redenering, zonder de student te overladen met informatie.</span>',
-      vraag: '<br><br><span class="vraag-hl">Wat is de meest waarschijnlijke therapeutische oorzaak van het klinisch beeld bij deze patiënt?<br>Leg dit uit aan de hand van de stappen van klinisch redeneren.</span>',
-      output: '<br><br><span class="output-hl">Geef het antwoord in een korte lijst met uitleg volgens de volgende stappen:<br>1. Informatie<br>2. Hypothese<br>3. Differentiële diagnose<br>4. Gekozen leidende diagnose<br>5. Diagnostische verantwoording</span>'
-    };
+    let currentIndex = 0;
 
-    const responseAdditions = {
-      context: '<br><br><span class="context-hl">De combinatie koorts, tachycardie en geleidelijk toenemende pijn past bij acute appendicitis, maar alternatieven blijven mogelijk.</span>',
-      rol: '<br><br><span class="rol-hl">Als docent farmacie geef ik een korte, duidelijke redenering en vermijd ik overbodige details.</span>',
-      vraag: '<br><br><span class="vraag-hl">Ik adresseer diagnose, differentiaal en rode vlaggen expliciet, met aandacht voor veiligheid.</span>',
-      output: '<br><br><span class="output-hl">1) Werkdiagnose: Acute appendicitis<br>2) Differentiëlen: Gastro-enteritis, UWI, PID, niersteen (met korte pro/contra)<br>3) Rode vlaggen: peritoneale prikkeling, hemodynamische instabiliteit, zwangerschap<br>4) Vervolg: LO gericht, lab (CRP, leukocyten), echo/CT afhankelijk van beleid.</span>'
-    };
-
-    let active = [];
-
-    function apply(type) {
-      if (!active.includes(type)) active.push(type);
+    function selectStep(index) {
+      currentIndex = Math.max(0, Math.min(index, steps.length - 1));
       render();
     }
 
     function resetAll() {
-      active = [];
+      currentIndex = 0;
       render();
     }
 
     function render() {
-      document.getElementById("prompt").innerHTML = basePrompt + active.map(a => promptAdditions[a]).join("");
-      document.getElementById("response").innerHTML = baseResponse + active.map(a => responseAdditions[a]).join("");
-    }
-
-    render();
-
-    function send() {
-      const input = document.getElementById('composer-input');
-      const text = input.value.trim();
-      if (!text) return;
-      window.basePrompt = text; // update basisprompt
-      input.value = '';
-      render();
+      const promptHtml = steps.slice(0, currentIndex + 1).map(s => s.prompt).join('');
+      const responseHtml = steps.slice(0, currentIndex + 1).map(s => s.response).join('');
+      document.getElementById('prompt').innerHTML = promptHtml;
+      document.getElementById('response').innerHTML = responseHtml;
       const chat = document.getElementById('chat');
       chat.scrollTop = chat.scrollHeight;
+
+      // Update active button state
+      const buttons = [
+        document.querySelector('.sidebar button.context'),
+        document.querySelector('.sidebar button.rol'),
+        document.querySelector('.sidebar button.vraag'),
+        document.querySelector('.sidebar button.output')
+      ];
+      buttons.forEach((btn, idx) => {
+        if (!btn) return;
+        // Map step index 1..4 to button index 0..3; no active button for step 0 (basis)
+        btn.classList.toggle('active', currentIndex - 1 === idx);
+      });
     }
 
-    document.getElementById('composer-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        send();
-      }
-    });
+    // Initialize view
+    render();
   </script>
 </body>
 </html>
