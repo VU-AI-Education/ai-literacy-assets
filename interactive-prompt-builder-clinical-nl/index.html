@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Klinisch redeneren – Interactieve prompt builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 1.3rem;
+      font-weight: normal;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .prompt-box {
+      flex: 3;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      line-height: 1.5;
+    }
+    /* Chat layout */
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-height: 220px;
+    }
+    .message {
+      display: flex;
+      width: 100%;
+    }
+    .message.user { justify-content: flex-end; }
+    .message.ai { justify-content: flex-start; }
+    .bubble {
+      max-width: 80%;
+      padding: 0.6rem 0.75rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    .bubble.user {
+      background: #e5e7eb;
+      color: #111827;
+      border-top-right-radius: 4px;
+    }
+    .bubble.ai {
+      background: #f3f4f6;
+      color: #374151;
+      border-top-left-radius: 4px;
+    }
+    .composer {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.75rem;
+    }
+    .composer input[type="text"] {
+      flex: 1;
+      padding: 0.6rem 0.7rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .composer button {
+      width: auto;
+      text-align: center;
+      background: #111827;
+      color: #fff;
+    }
+    .ai-output { display: none; }
+    .sidebar {
+      flex: 1;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: #111827;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: left;
+      font-weight: normal;
+    }
+    /* Button colors aligned with highlight styles */
+    button.context { background: #dbeafe; color: #1e40af; }
+    button.rol { background: #f3e8ff; color: #6b21a8; }
+    button.vraag { background: #fef3c7; color: #92400e; }
+    button.output { background: #dcfce7; color: #166534; }
+
+    .reset-container {
+      margin-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 1rem;
+    }
+    button.reset { background: #f3f4f6; color: #374151; font-weight: normal; }
+
+    /* Highlight colors (match button hues) */
+    .context-hl {
+      color: #1e40af;
+      background: #dbeafe;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .rol-hl {
+      color: #6b21a8;
+      background: #f3e8ff;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .vraag-hl {
+      color: #92400e;
+      background: #fef3c7;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+    .output-hl {
+      color: #166534;
+      background: #dcfce7;
+      font-weight: normal;
+      padding: 0 0;
+      border-radius: 4px;
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactieve prompt builder voor klinisch redeneren (NL)">
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <header>Klinisch redeneren: bouw een sterke prompt</header>
+  <div class="container">
+    <div class="prompt-box">
+      <div class="chat" id="chat">
+        <div class="message user">
+          <div class="bubble user" id="prompt">Patiënt met acute buikpijn – help mij klinisch redeneren.</div>
+        </div>
+        <div class="message ai">
+          <div class="bubble ai" id="response">Laten we systematisch redeneren: start met waarschijnlijkheidsinschatting, benoem differentiaaldiagnoses en plan veilig vervolgstappen.</div>
+        </div>
+      </div>
+      <div class="composer">
+        <input id="composer-input" type="text" placeholder="Typ je bericht en druk op Enter..." />
+        <button id="send-btn" onclick="send()">Verstuur</button>
+      </div>
+    </div>
+    <div class="sidebar">
+      <h3>Promptcomponenten</h3>
+      <button class="context" onclick="apply('context')">Context</button>
+      <button class="rol" onclick="apply('rol')">Rol</button>
+      <button class="vraag" onclick="apply('vraag')">Vraag</button>
+      <button class="output" onclick="apply('output')">Output format</button>
+      <div class="reset-container">
+        <button class="reset" onclick="resetAll()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const basePrompt = "21-jarige toerist met buikpijn, braken en diarree. Wat is er aan de hand?";
+    const baseResponse = "Een 21-jarige toerist met buikpijn, braken en diarree kan meerdere dingen hebben. De meest voorkomende oorzaken hangen af van de context (waar is hij geweest, wat heeft hij gegeten, hoe ziek ziet hij eruit?).";
+
+    const promptAdditions = {
+      context: '<br><br><span class="context-hl">21-jarige toerist, door vrienden naar de HAP gebracht:<br>Niet lekker, buikpijn, braken, diarree.<br>A: vrij<br>B: AH 12 per minuut, saturatie 95%<br>C: RR 120/80, pols 88<br>D: kleine pupillen, tranende ogen, glucose 5,8<br>E: transpireert, T 37,0</span>',
+      rol: '<br><br><span class="rol-hl">Je bent een docent in farmacie. Geef een korte en duidelijke redenering, zonder de student te overladen met informatie.</span>',
+      vraag: '<br><br><span class="vraag-hl">Wat is de meest waarschijnlijke therapeutische oorzaak van het klinisch beeld bij deze patiënt?<br>Leg dit uit aan de hand van de stappen van klinisch redeneren.</span>',
+      output: '<br><br><span class="output-hl">Geef het antwoord in een korte lijst met uitleg volgens de volgende stappen:<br>1. Informatie<br>2. Hypothese<br>3. Differentiële diagnose<br>4. Gekozen leidende diagnose<br>5. Diagnostische verantwoording</span>'
+    };
+
+    const responseAdditions = {
+      context: '<br><br><span class="context-hl">De combinatie koorts, tachycardie en geleidelijk toenemende pijn past bij acute appendicitis, maar alternatieven blijven mogelijk.</span>',
+      rol: '<br><br><span class="rol-hl">Als docent farmacie geef ik een korte, duidelijke redenering en vermijd ik overbodige details.</span>',
+      vraag: '<br><br><span class="vraag-hl">Ik adresseer diagnose, differentiaal en rode vlaggen expliciet, met aandacht voor veiligheid.</span>',
+      output: '<br><br><span class="output-hl">1) Werkdiagnose: Acute appendicitis<br>2) Differentiëlen: Gastro-enteritis, UWI, PID, niersteen (met korte pro/contra)<br>3) Rode vlaggen: peritoneale prikkeling, hemodynamische instabiliteit, zwangerschap<br>4) Vervolg: LO gericht, lab (CRP, leukocyten), echo/CT afhankelijk van beleid.</span>'
+    };
+
+    let active = [];
+
+    function apply(type) {
+      if (!active.includes(type)) active.push(type);
+      render();
+    }
+
+    function resetAll() {
+      active = [];
+      render();
+    }
+
+    function render() {
+      document.getElementById("prompt").innerHTML = basePrompt + active.map(a => promptAdditions[a]).join("");
+      document.getElementById("response").innerHTML = baseResponse + active.map(a => responseAdditions[a]).join("");
+    }
+
+    render();
+
+    function send() {
+      const input = document.getElementById('composer-input');
+      const text = input.value.trim();
+      if (!text) return;
+      window.basePrompt = text; // update basisprompt
+      input.value = '';
+      render();
+      const chat = document.getElementById('chat');
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    document.getElementById('composer-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        send();
+      }
+    });
+  </script>
+</body>
+</html>
